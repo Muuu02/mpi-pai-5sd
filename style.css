@@ -1,0 +1,226 @@
+/* =================================
+   1. VARIABEL & PENGATURAN DASAR
+   ================================= */
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #10b981;
+    --disabled-color: #94a3b8;
+    --background-gradient: linear-gradient(135deg, #f5f3ff, #ecfdf5);
+    --font-family: 'Poppins', sans-serif;
+    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--background-gradient);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* =================================
+   2. GAYA UNTUK MODAL & POP-UP
+   ================================= */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100; transition: opacity 0.3s ease-in-out;
+}
+.modal-box, .welcome-box {
+    background: white; padding: 2rem 3rem; border-radius: 20px;
+    box-shadow: var(--shadow-medium); text-align: center;
+    transform: scale(0.9); animation: pop-in 0.3s forwards ease-out;
+}
+@keyframes pop-in { to { transform: scale(1); } }
+.modal-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; }
+.modal-buttons button {
+    width: 100%; padding: 0.8rem; border: none; font-size: 1rem;
+    font-weight: 600; border-radius: 12px; cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+#btn-confirm-yes, #btn-materi-selesai-yes { background: var(--primary-color); color: white; }
+#btn-confirm-no, #btn-materi-selesai-no { background: #f1f5f9; color: #475569; }
+#btn-confirm-yes:hover, #btn-confirm-no:hover, #btn-materi-selesai-yes:hover, #btn-materi-selesai-no:hover { transform: scale(1.05); }
+
+.welcome-box h1 { color: var(--primary-color); margin-bottom: 0.5rem; }
+.welcome-box p { color: #666; margin-bottom: 2rem; }
+#name-form input {
+    width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 12px;
+    font-size: 1rem; margin-bottom: 0.8rem; text-align: center;
+}
+#name-form input:focus { outline: none; border-color: var(--primary-color); }
+#name-form button {
+    width: 100%; padding: 1rem; border: none; background: var(--primary-color);
+    color: white; font-size: 1.1rem; font-weight: 600; border-radius: 12px;
+    cursor: pointer; transition: background 0.3s;
+}
+#name-form button:hover { background: #3c34d1; }
+
+/* =================================
+   3. TATA LETAK UTAMA APLIKASI
+   ================================= */
+#app-wrapper {
+    width: 95%; max-width: 900px; height: 90vh; max-height: 750px;
+    background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px);
+    border-radius: 20px; box-shadow: var(--shadow-medium);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex; flex-direction: column; overflow: hidden;
+}
+
+header {
+    padding: 1.5rem 2rem; flex-shrink: 0; display: flex;
+    justify-content: space-between; align-items: center;
+}
+header > div { text-align: left; }
+.school-display { font-size: 0.9rem; color: #64748b; margin-top: -5px; }
+.exit-button {
+    background: #f1f5f9; color: #64748b; border: none; width: 40px; height: 40px;
+    border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex;
+    justify-content: center; align-items: center; transition: background 0.3s, color 0.3s;
+}
+.exit-button:hover { background: #e2e8f0; color: var(--primary-color); }
+
+main { flex-grow: 1; position: relative; }
+
+/* =================================
+   4. SISTEM HALAMAN & TRANSISI
+   ================================= */
+.page {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    padding: 0 2rem 2rem 2rem; opacity: 0; transform: translateY(20px);
+    pointer-events: none; transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    overflow-y: auto;
+}
+.page.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.page h2 { color: var(--primary-color); text-align: center; margin-bottom: 1.5rem; font-size: 2rem; }
+
+/* =================================
+   5. GAYA KONTEN SPESIFIK
+   ================================= */
+
+/* --- Menu Beranda & Tindakan --- */
+.header-beranda { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.header-beranda h2 { margin-bottom: 0; }
+.petunjuk-button { background: none; border: none; font-size: 2rem; color: var(--disabled-color); cursor: pointer; transition: color 0.3s; }
+.petunjuk-button:hover { color: var(--primary-color); }
+.beranda-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; }
+.topic-button, .menu-item {
+    background: white; border: 2px solid transparent; border-radius: 15px; padding: 1.5rem;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: var(--shadow-light); transition: all 0.3s;
+    font-family: var(--font-family); text-align: center;
+}
+.topic-button:hover, .menu-item:hover { transform: translateY(-8px); box-shadow: var(--shadow-medium); color: var(--primary-color); }
+.topic-button i, .menu-item i { font-size: 3rem; margin-bottom: 0.5rem; color: var(--primary-color); }
+.topic-button span, .menu-item span { font-size: 1rem; font-weight: 600; }
+
+.menu-item.completed { position: relative; border-color: var(--secondary-color); }
+.menu-item.completed::after {
+    content: '\ea7c'; font-family: 'Boxicons'; position: absolute;
+    top: 5px; right: 10px; font-size: 1.2rem; color: var(--secondary-color);
+}
+#btn-latihan-menu[disabled] { opacity: 0.5; cursor: not-allowed; background-color: #f8fafc; border-color: transparent; }
+#btn-latihan-menu[disabled]:hover { transform: none; box-shadow: var(--shadow-light); color: var(--disabled-color); }
+#btn-latihan-menu[disabled] i { color: var(--disabled-color); }
+
+/* --- Tombol Umum --- */
+.btn-kembali { background: none; border: none; font-size: 1rem; color: #555; cursor: pointer; display: inline-flex; align-items: center; margin-bottom: 1.5rem; padding: 0.5rem 1rem; border-radius: 10px; transition: background 0.2s, color 0.2s; }
+.btn-kembali i { margin-right: 0.5rem; font-size: 1.2rem; }
+.btn-kembali:hover { background: #e0e0e0; color: #333; }
+.btn-submit { background: var(--primary-color); color: white; font-weight: 600; margin: 1.5rem auto 0 auto; display: block; box-shadow: var(--shadow-light); border: none; padding: 0.9rem 2rem; border-radius: 25px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
+.btn-submit:hover { background: #3c34d1; transform: translateY(-3px); }
+#btn-materi-selesai, #btn-video-selesai { background: var(--secondary-color); }
+#btn-materi-selesai:hover, #btn-video-selesai:hover { background: #059669; }
+
+/* --- Halaman Materi (PERBAIKAN TAMPILAN) --- */
+.card-container { display: flex; flex-direction: column; gap: 1rem; }
+.card {
+    background: white; border-radius: 12px; box-shadow: var(--shadow-light);
+    padding: 1rem 1.5rem; text-align: left; cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex; align-items: center; gap: 1.5rem;
+}
+.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-medium); }
+.card .arab { font-size: 2.5rem; color: var(--primary-color); }
+.card-info h3 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+.card-info p { margin: 0; color: #555; }
+
+/* --- Halaman Konten Umum (Tujuan, Petunjuk, Detail) --- */
+.content-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow-light); font-size: 1.1rem; line-height: 1.8; }
+.content-container ol { padding-left: 20px; }
+.content-container ol li { margin-bottom: 1rem; }
+#detail-content p { font-size: 1.1rem; text-align: justify; }
+
+/* --- Wadah Gambar & Video --- */
+.gambar-container { width: 100%; max-height: 250px; margin-bottom: 1.5rem; display: flex; justify-content: center; }
+.gambar-container img { width: 100%; height: 100%; object-fit: contain; border-radius: 15px; }
+.video-container { position: relative; width: 100%; padding-top: 56.25%; background: #eee; border-radius: 15px; overflow: hidden; margin: 1rem 0; }
+.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+/* =================================
+   6. GAYA UNTUK LATIHAN SOAL
+   ================================= */
+.quiz-layout { display: flex; gap: 2rem; height: calc(100% - 80px); }
+.quiz-navigator { flex-basis: 200px; flex-shrink: 0; background: #fff; border-radius: 15px; padding: 1rem; box-shadow: var(--shadow-light); overflow-y: auto; }
+.quiz-navigator p { font-weight: 600; text-align: center; margin-bottom: 1rem; color: var(--primary-color); }
+.nav-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+.nav-number { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; height: 40px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+.nav-number:hover { background: #e2e8f0; }
+.nav-number.answered { background: var(--secondary-color); color: white; border-color: var(--secondary-color); }
+.nav-number.current { background: var(--primary-color); color: white; border-color: var(--primary-color); transform: scale(1.1); }
+.quiz-main { flex-grow: 1; display: flex; flex-direction: column; }
+#quiz-container { flex-grow: 1; position: relative; }
+.quiz-question { display: none; animation: fadeIn 0.5s; }
+.quiz-question img { max-width: 100%; max-height: 200px; border-radius: 10px; margin: 0 auto 1rem auto; display: block; }
+.quiz-question.current-question { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.quiz-navigation-buttons { display: flex; justify-content: space-between; margin-top: 1rem; }
+.btn-nav-soal { padding: 0.8rem 1.5rem; background: #fff; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; }
+#btn-submit-quiz { margin-top: 1rem; }
+
+.quiz-options { display: grid; gap: 1rem; margin-top: 1rem; }
+.quiz-options label { display: block; background: white; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: var(--shadow-light); }
+.quiz-options label:hover { border-color: var(--primary-color); transform: translateY(-2px); }
+.quiz-options input[type="radio"], .quiz-options input[type="checkbox"] { display: none; }
+.quiz-options label.selected { border-color: var(--primary-color); background-color: #eef2ff; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+
+.matching-container-dnd { display: flex; justify-content: space-between; align-items: stretch; gap: 1rem; margin-top: 1rem; }
+.matching-column { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+.matching-item-static { padding: 1rem; background: #f8fafc; border-radius: 8px; text-align: center; font-weight: 600; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; min-height: 58px; }
+.drop-zone { border: 2px dashed #cbd5e1; border-radius: 8px; min-height: 58px; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; flex-grow: 1; }
+.drag-area { align-items: flex-start; }
+.matching-item-draggable { padding: 1rem; background: white; border-radius: 8px; box-shadow: var(--shadow-light); cursor: grab; text-align: center; }
+.matching-item-draggable:active { cursor: grabbing; }
+.sortable-ghost { opacity: 0.4; background: #c7d2fe; }
+.drop-zone.sortable-ghost { background: #d1fae5; }
+
+/* Halaman Hasil */
+#hasil-content { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 2rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+#hasil-content p { font-size: 1.2rem; margin-bottom: 1rem; }
+#hasil-content h2 { font-size: 3.5rem; color: white; }
+.hasil-buttons { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
+.hasil-buttons .btn-kembali { background-color: #e2e8f0; padding: 0.8rem 1.5rem; }
+
+/* =================================
+   7. LAIN-LAIN
+   ================================= */
+@media (max-width: 768px) {
+    #app-wrapper { height: 100vh; max-height: none; border-radius: 0; }
+    .quiz-layout { flex-direction: column; height: auto; }
+    .quiz-navigator { order: 2; flex-basis: auto; }
+    .quiz-main { order: 1; }
+    .nav-numbers { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
+    .matching-container-dnd { flex-direction: column; }
+}
+.hidden { display: none; }
